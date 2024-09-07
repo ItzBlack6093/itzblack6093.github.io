@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <header Access-Control-Allow-Origin: abc.com></header>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+</head>
+<body>
+    <div class="level-tag level-tag-color-0 level-tag-shape-0 level-tag-shape-color-0" id="level-tag" spellcheck="false" contenteditable="">1</div>
+    <script>
+    
+    const tag = document.getElementById("level-tag");
+                      tag.addEventListener("keydown", (e) => {
+                          if (e.keyCode === 13 || e.keyCode === 32 || (isNaN(String.fromCharCode(e.which)) && ![8, 46, 37, 39].includes(e.keyCode))) {
+                              e.preventDefault();
+                          }
+                      });
+                      tag.addEventListener("paste", (e) => {
+                          e.preventDefault();
+                      });
+                      const callback = (e) => {
+                          if (tag.textContent.length === 0) return;
+                          let level = parseInt(tag.textContent);
+                          if (level >= 5000) {
+                              if (level > 5000) {
+                                  tag.textContent = 5000;
+                              }
+                              tag.className = "level-tag level-tag-golden";
+                              return;
+                          }
+                          if (level < 1) {
+                              tag.textContent = 1;
+                              level = 1;
+                          }
+                          if (tag.textContent.startsWith("0")) {
+                              tag.textContent = level.toFixed(0);
+                          }
+                          const shapeColor = Math.floor(((level) % 100) / 10);
+                          const shape = Math.floor(((level) % 1000) / 100) % 5;
+                          const tagColor = Math.floor((level) / 500);
+                          tag.className = `level-tag level-tag-color-${tagColor} level-tag-shape-${shape} level-tag-shape-color-${shapeColor}`;
+                      };
+                      tag.addEventListener("change", callback);
+                      tag.addEventListener("paste", callback);
+                      tag.addEventListener("keyup", callback);
+                      
+                        
+        
+    </script>
+    <canvas id="canvas"></canvas>
+</body>
+</html>
